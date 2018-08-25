@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[Asp.net Core身份认证框架IdentityServer4（5）使用密码保护API]]></title>
+    <url>%2F2018%2F08%2F24%2FAsp-net-Core%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6IdentityServer4%EF%BC%885%EF%BC%89%E4%BD%BF%E7%94%A8%E5%AF%86%E7%A0%81%E4%BF%9D%E6%8A%A4API%2F</url>
+    <content type="text"><![CDATA[使用密码保护APIOAuth 2.0 资源所有者密码授权(resource owner password grant)允许一个客户端发送用户名和密码到令牌服务器，然后返回一个访问令牌(access token)表示用户身份。 规范推荐你只有在可信任的应用才使用资源所有者密码授权。一般来说，当你想要对用户进行身份认证并请求访问令牌时，使用交互式的OpenId Connectiont授权通常会更加好。 然而，这种授权类型为我们介绍了用户(users)概念，因此我们在该例中使用它。 添加用户就像前篇为资源和客户端的在内存中存储，也有用于用户的存储。 TestUser类表示一个测试用户以及它的身份信息。我们通过添加以下代码到我们的Config类创建两个用户：12345678910111213141516171819202122public static List&lt;TestUser&gt; GetUsers()&#123; var users = new List&lt;TestUser&gt;(); var user = new TestUser() &#123; SubjectId = "1", Username = "ainslee", Password = "password" &#125;; users.Add(user); user = new TestUser() &#123; SubjectId = "2", Username = "joyjoy", Password = "password" &#125;; users.Add(user); return users;&#125; 然后用IdentityServer注册这些测试用户：123456789public void ConfigureServices(IServiceCollection services)&#123; //IdentityServer配置in-memory存储,键(Keys),客户端和资源，测试用户 services.AddIdentityServer() .AddDeveloperSigningCredential() .AddInMemoryApiResources(Config.GetApiResources()) .AddInMemoryClients(Config.GetClients()) .AddTestUsers(Config.GetUsers());&#125; AddTestUsers扩展方法在幕后做了一些事情 为资源所有者密码授权添加支持 为登录UI通常使用的用户关联服务添加支持（我们将会在下一章用到） 为基于测试用户的概要服务添加支持（我们将会在下一章中学到更多） 为资源所有者密码授权添加客户端你可以简单地通过改变AllowedGrantTypes属性，向现有的客户端添加该授权类型的支持。如果你希望你的客户端可以使用这两种授权类型，这也是完全支持的。 通常，您希望为资源所有者用例创建一个单独的客户端，添加以下代码到你的客户端配置：123456789101112131415161718public static IEnumerable&lt;Client&gt; GetClients()&#123; var list = new List&lt;Client&gt;(); var client = new Client() &#123; ClientId = "ro.client", AllowedGrantTypes = GrantTypes.ResourceOwnerPassword, ClientSecrets =&#123; new Secret("secret".Sha256()) &#125;, //客户端要访问的作用域(Api) AllowedScopes = &#123; "api1" &#125; &#125;; list.Add(client); return list;&#125; 使用密码授权方式请求令牌该客户端与我们之前的凭据授权客户端非常相似。主要的差异是当前客户端将会以某种方式收集用户的密码，然后在令牌请求时将它发送到令牌服务器。 同样的IdentityModel的TokenClient在这里可以为你提供帮助：12var tokenClient = new TokenClient(discovery.TokenEndpoint, "ro.client", "secret");var tokenResponse = await tokenClient.RequestResourceOwnerPasswordAsync("ainslee", "password", "api1"); 当你发送令牌到Identity API终结点，你注意到与凭据授权对比，有一个很小但是非常重要的不同。通过密码授权获取的访问令牌包含一个唯一标识用户身份的sub声明(claim)。通过在调用API之后检查内容变量，可以看到这个“sub”声明，控制台应用程序也将在屏幕上显示它。 子声明的存在(或不存在)使API能够区分代表客户机的调用和代表用户的调用。]]></content>
+      <categories>
+        <category>Identity Server 4</category>
+      </categories>
+      <tags>
+        <tag>Identity Server 4</tag>
+        <tag>Asp.net core</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Asp.net Core身份认证框架IdentityServer4（4）使用客户端凭证保护API]]></title>
+    <url>%2F2018%2F08%2F21%2FAsp-net-Core%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6IdentityServer4%EF%BC%884%EF%BC%89%E4%BD%BF%E7%94%A8%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%87%AD%E8%AF%81%E4%BF%9D%E6%8A%A4API%2F</url>
+    <content type="text"><![CDATA[使用客户端凭证保护APIquickStart项目展示了使用IdentityServer保护API最基本的场景。在这个场景中，你将定义一个API和一个想访问它的客户端。客户端在IdentityServer请求一个访问令牌(access token)，然后使用令牌访问API。 定义API作用域定义了在系统中你想保护的资源：例如API。 因为我们使用内存中(in-memory)的配置来进行这个演练，所以添加API资源所需要做的就是，创建一个类型是ApiResource的对象并设置适当的属性。 添加文件(例如Config.cs)到你的项目中并添加以下代码：1234567public static IEnumerable&lt;ApiResource&gt; GetApiResources()&#123; return new List&lt;ApiResource&gt; &#123; new ApiResource("api1", "My API") &#125;;&#125; 注：需要添加引用 using IdentityServer4.Models; 定义客户端下一步就是定义一个访问API的客户端。 在这个场景中，客户端并没有一个交互的用户。我们将用一个所谓的机密(secret)客户端来使用IdentityServer进行身份认证。添加以下代码到你的Config.cs文件：123456789101112131415161718192021public static IEnumerable&lt;Client&gt; GetClients()&#123; var list = new List&lt;Client&gt;(); var client = new Client &#123; ClientId = "client", //非交互用户，使用Clientid/Secret认证 AllowedGrantTypes = GrantTypes.ClientCredentials, //认证的Secret ClientSecrets =&#123; new Secret("secret".Sha256()) &#125;, //客户端要访问的作用域(Api) AllowedScopes = &#123; "api1" &#125; &#125;; list.Add(client); return list;&#125; 配置IdentityServer配置IdentityServer使用你定义的作用域和客户端，你需要在ConfigureServices方法中添加代码。你可以用如下代码，使用约定的扩展方法添加相关存储和数据到依赖注入(DI)系统：12345678public void ConfigureServices(IServiceCollection services)&#123; //IdentityServer配置in-memory存储,键(Keys),客户端和资源 services.AddIdentityServer() .AddDeveloperSigningCredential() .AddInMemoryApiResources(Config.GetApiResources()) .AddInMemoryClients(Config.GetClients());&#125; 如果你运行服务，然后再浏览器中导航到http://localhost:5000/.well-known/openid-configuration链接，你会看到所谓的发现文档(discovery document)。这将被你的客户端和API用来下载必要的配置数据。 添加API下一步，添加一个API到你的解决方案。 你可以使用ASP.NET Core Web Api模板。同样，我们建议您控制端口并使用与之前配置Kestrel和启动概要文件相同的技术。本次演练假设你已经配置你API运行在http://localhost:5001主机上。 控制器添加一个新的控制器文件到你的API项目：1234567891011121314151617[Route("identity")][Authorize]public class IdentityController : ControllerBase&#123; [HttpGet] public IActionResult Index() &#123; var users = from claim in User.Claims select new &#123; claim.Type, claim.Value &#125;; return new JsonResult(users); &#125;&#125; 这个控制器稍后会被用来测试用户认证，同样为API的身份信息提供可视化。 配置最后一步是添加身份认证服务到依赖注入(DI)以及添加身份认证中间件(authentication middleware)到管道。这会： 验证进入的令牌，确定它来自可信任的发行机构 验证令牌对API(作用域)是有效的 在项目中添加IdentityServer4.AccessTokenValidationNuGet包。1PM&gt; Install-Package IdentityServer4.AccessTokenValidation 然后更新Startup.cs文件：123456789101112131415161718192021222324252627public void ConfigureServices(IServiceCollection services)&#123; services.AddMvcCore() .AddAuthorization() .AddJsonFormatters(); services.AddAuthentication("Bearer") .AddIdentityServerAuthentication( options =&gt; &#123; options.Authority = "http://localhost:5000"; options.RequireHttpsMetadata = false; options.ApiName = "api1"; &#125;);&#125;public void Configure(IApplicationBuilder app, IHostingEnvironment env)&#123; if (env.IsDevelopment()) &#123; app.UseDeveloperExceptionPage(); &#125; app.UseAuthentication(); app.UseMvc();&#125; AddAuthentication扩展方法添加身份认证服务到依赖注入(DI)并且配置Bearer作为默认的方案。AddIdentityServerAuthentication扩展方法为身份认证服务的使用添加IdentityServer访问令牌认证Handler到依赖注入(DI)。UseAuthentication添加身份认证中间件到管道，这样每次请求主机，身份认证将会自动执行。 如果你在浏览器导航到控制器http://localhost:5001/identity，你会得到一个401状态码的返回结果。这表示你的API需要一个凭据。 创建客户端最后一步是创建一个请求访问令牌的客户端，然后使用这个令牌访问API。本例我们添加一个控制台(Console)项目到解决方案。 这个令牌终结点在IdentityServer中实现了OAuth2.0协议，你可以使用原始的HTTP请求访问它。然而，我们有一个叫做IdentityModel的客户端库，它将协议交互封装在一个易于使用的API中。 在项目中添加IdentityModelNuGet包。1PM&gt; Install-Package IdentityModel IdentityModel包含一个客户端库，可以与discovery endpoint一起使用。这样，您只需要知道IdentityServer的基本地址——实际的端点地址可以从元数据中读取:123456var discovery = await DiscoveryClient.GetAsync("http://localhost:5000");if (discovery.IsError)&#123; Console.WriteLine(discovery.Error); return;&#125; 注：需要添加应用using IdentityModel.Client; 然后，你可以使用RequestClientCredentialsAsync方法为你的API请求一个令牌：12345678910var tokenClient = new TokenClient(discovery.TokenEndpoint, "client", "secret");var tokenResponse = await tokenClient.RequestClientCredentialsAsync("api1");if (tokenResponse.IsError)&#123; Console.WriteLine(tokenResponse.Error); return;&#125;Console.WriteLine(tokenResponse.Json); 注：从控制台复制和粘贴访问令牌到jwt.io验证原始的token 最后一步是访问调用API。 我们普遍的使用HTTP Authorization header发送访问令牌到API。可以使用SetBearerToken扩展方法完成：123456789101112131415var client = new HttpClient();client.SetBearerToken(tokenResponse.AccessToken);var response = await client.GetAsync("http://localhost:5001/identity");if (!response.IsSuccessStatusCode)&#123; Console.WriteLine(response.StatusCode);&#125;else&#123; var content = await response.Content.ReadAsStringAsync(); Console.WriteLine(JArray.Parse(content));&#125; 输出结果如下： 注：默认情况下，一个访问令牌会包括作用域的信息，生命周期，客户端ID以及令牌发行人名称。 完整的客户端代码如下：客户端代码]]></content>
+      <categories>
+        <category>Identity Server 4</category>
+      </categories>
+      <tags>
+        <tag>Identity Server 4</tag>
+        <tag>Asp.net core</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Asp.net Core身份认证框架IdentityServer4（3）安装和概述]]></title>
+    <url>%2F2018%2F08%2F16%2FAsp-net-Core%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6IdentityServer4%EF%BC%883%EF%BC%89%E5%AE%89%E8%A3%85%E5%92%8C%E6%A6%82%E8%BF%B0%2F</url>
+    <content type="text"><![CDATA[安装和概述开始一个新的IdentityServer项目有两种基本的方式： 从头开始 在Visual Studio中使用ASP.NET Identity模板开始 如果你从头开始，我们提供了一些帮助和in-memory的存储。因此，你不必一开始就担心持久(persistence)性。 如果你从ASP.NET Identity模板开始，我们同样提供了一种简单的方法来集成。 快速开始(Quickstarts)教程为多种常见的IdentityServer场景提供了逐步地指导。它们从绝对的基础知识开始，然后变的更加复杂–建议你按序操作。 每个Quickstart有一个相关的解决方案，你可以在Quickstarts文件夹中的IdentityServer4.Samples找到源码。 基本安装屏幕中的截图显示的是Visual Studio-但这不是必须的。 创建 QuickStart IdentityServer 通过创建Asp.NET Core Web 应用程序开始。 选择空项目模板。 然后添加 IdentityServer4 nuget 包。可在 菜单栏-工具-Nuget包管理器-程序包管理器控制台打开控制台，然后运行以下命令添加包依赖1PM&gt; Install-Package IdentityServer4 注意：IdentityServer 1.x 版本使用ASP.NET Core 1.1,IdentityServer 2.x 版本使用ASP.NET Core 2.0。 IdentityServer使用常规模式来配置和添加服务到ASP.NET Core宿主。在ConfigureServices中，必要的服务被配置并且添加到依赖注入(DI)系统。在Configure中，中间件(middleware)被添加到HTTP管道中。 如下修改你的Startup.cs文件：123456789101112131415public void ConfigureServices(IServiceCollection services)&#123; services.AddIdentityServer() .AddDeveloperSigningCredential();&#125;public void Configure(IApplicationBuilder app, IHostingEnvironment env)&#123; if (env.IsDevelopment()) &#123; app.UseDeveloperExceptionPage(); &#125; app.UseIdentityServer();&#125; AddIdentityServer在依赖注入(DI)中注册IdentityServer服务。它还为运行时状态注册一个In-Memory的存储，这对开发场景非常有用。在生产场景中，你需要一个像数据库或缓存一样的持久化或共享存储。 AddDeveloperSigningCredential扩展为登录token创建了一个临时的key。这可能对开始学习很有用，但是在生产场景中，你应该使用持久化Key替换掉它。 注：IdentityServer未为启动做好准备，我们将会在接下来的示例中添加必须的服务。 修改主机Visual Studio默认使用IIS Express来寄宿你的Web项目。这是很好的方式，除了你不能从控制台看到时时输出的日志。 IdentityServer 广泛的使用日志记录，然而在UI或者返回到客户端可见的错误信息是故意模糊的。 我们推荐在控制台宿主(console host)中运行IdentityServer。可以通过项目(鼠标右键)-属性-调试-启动中选择下拉项[项目]，如下图：]]></content>
+      <categories>
+        <category>Identity Server 4</category>
+      </categories>
+      <tags>
+        <tag>Identity Server 4</tag>
+        <tag>Asp.net core</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[配置ssh将本地仓库提交到github仓库]]></title>
+    <url>%2F2018%2F08%2F13%2F%E9%85%8D%E7%BD%AEssh%E5%B0%86%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E6%8F%90%E4%BA%A4%E5%88%B0github%E4%BB%93%E5%BA%93%2F</url>
+    <content type="text"><![CDATA[配置ssh配置账号和密码12$ git config --global user.name "myUsername" //配置你的账户名字$ git config --global user.email "myEmail" //配置你的创建github账户的邮箱 配置完成后，可通过以下命令查看配置的结果12$ git config user.name$ git config user.email 显示结果 myUserNamemyEmail 生成ssh文件使用git bash控制台，输入以下指令：1$ ssh-keygen -t rsa -C "myEmail" 注：myEmail输入你实例的github邮箱！！！创建完成之后，显示以下信息。提示你输入文件名，如果你在本机有多个ssh，则输入你指定的名称，若为空，则使用默认名称id_rsa Generating public/private rsa key pair.Enter file in which to save the key (/c/Users/wa02827/.ssh/id_rsa): 创建完成后，我们在个人用户目录c/Users/wa02827(当前登录名，不同用户会有不同的文件夹)/.ssh下看到id_rsa(私钥)和id_rsa.pub(公钥)两个文件。 在github上配置公钥使用记事本打开你要上传的公钥（本例：id_rsa.pub)，内容如下： ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5Ez0jbSECncu+SzUDjc/JIzwco9hVg62kYcCIocpYnazn98pK5/fI1wJ/M8nogDwIjX9/u74qSLLojGNhAwuwuEEDjGUS8R6kR+Hn9tlUsLoARyJIfSiy9PUSqQX5RwowN9q0QAuDipGVZVnOzHLIdNccaJ06zTgWPxv+JyrB+Bu6GuXujlDvKWGE6gUpTE4fFA6rQp+KCRAdE1cboxiGSLo2xZ5xSiATK6gw61N1J2LeFAsecH8CSYKltPTYwIPfA2e7a/+U916ZRlQXKiKLCDmfdHCzL4h0g6BAMK304/k81k7DAVNCRLcIiNyP7KAvNJFXlq08e+984DkiwrMt 在github上，Settings-&gt;SSH and GPG keys点击New SSH Key按钮，将id_rsa.pub公钥数据复制到Key文本框，保存完成。 修改配置文件（单机器多个ssh重点）检查用户/.ssh目录下，是否有config文件，若是没有，新建名称为config的文件(注：该文件没有文件类型后缀)。 编辑文件，添加以下内容： ##别名，github默认为：github.comHost github_wu.com ##数组名称HostName github.com ##账号User gitPreferredAuthentications publickey ##指定私钥文件，默认为~/.ssh/id_rsaIdentityFile ~/.ssh/id_rsa.wu ~/.ssh/id_rsa.wu为生成ssh时，个人指定的文件路径，默认名称为~/.ssh/id_rsa.wu。 测试ssh使用一下命名，测试ssh是否可用1$ ssh -T git@github_wu.com 成功显示如下： Hi tangname! You’ve successfully authenticated, but GitHub does not provide shell access. 实际使用的时候，例如Clone仓库，这可以使用以下命令1$ git clone git@github_wu.com:tangname/myblog.git 默认为 git@github.com:tangname/myblog.git 以上信息中，tangname为个人的github用户名，myblog.git为仓库名称。 配置本地仓库和远程仓库关联若是直接通过git clone命令获取远程仓库，默认会添加关联。这里给出本地仓库先创建，而远程仓库还是空的时候，如何将本地仓库关联到远程仓库。 此处省略在github创建仓库步骤。 若远程仓库有文件(readme.md等)，首选获取远程仓库，命令如下：注：若是远程仓库为空，该步可以省略1$ git pull 然后将获取的文件提交到本地仓库12$ git add *$ git commit -m '提示消息' 添加关联1$ git remote add origin git@github.com:tangname/myblog.git 注：若是ssh配置了别名，则按配置的别名使用，例如使用 一、4、修改配置文件的配置，则命令如下：1$ git remote add origin git@github_wu.com:tangname/myblog.git 查看已配置的远程仓库1$ git remote 列表显示orgin，表明该远程仓库已经关联成功。 然后执行命令，将本地仓库推送到远程仓库:1$ git push origin master 其中，orgin为远程仓库别名，master为远程仓库中的分支名称。 至此，所有步骤完成。]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>ssh</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Asp.net Core身份认证框架IdentityServer4（2）术语]]></title>
+    <url>%2F2018%2F08%2F11%2FAsp.net-Core%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6IdentityServer4%EF%BC%882%EF%BC%89%E6%9C%AF%E8%AF%AD%2F</url>
+    <content type="text"><![CDATA[规范、文档和模型对象使用一些你应该知道的术语。 IdentityServerIdentityServer是一个OpenID Connect的提供程序。它实现了OpenID Connect和OAuth 2.0协议。 不同的文献对相同的角色使用不同的术语——您可能还会找到安全令牌服务(security token service)、身份提供者(identity provider)、授权服务器(authorization server)、IP-STS等等。 总而言之它们都是一样的：向客户端颁发安全令牌(security tokens) IdentityServer 有许多功能： 保护你的资源 使用本地存储账号或者外部身份提供程序对用户进行身份认证 提供会话(Session)管理和单点登陆(SSO) 管理和认证客户端 向客户端发出标识(Identity tokens)和访问令牌(access tokens) 验证令牌(validate tokens) User用户(User)是使用已注册的客户端(registered client)去访问资源(resources)的人。 Client客户端(Client)是从IdentityServer请求令牌(token)的软件，用于认证用户(请求identity token)或者访问资源(请求access token)。客户端在请求令牌前，必须先向IdentityServer注册。 客户端可以是Web应用，本地移动或桌面应用，单页应用(SPA)，服务进程(server process)等。 Resources资源(Resource)是你希望IdentityServer要保护的内容-你的用户身份数据(identity data)或APIs。 每个资源有唯一的名称-Client通过这个名称来指定它们想要访问的资源。 身份数据(identity data)资源：关于用户的身份西信息，例如用户名、邮箱地址等。 API资源: Api资源表示客户端想要调用的功能-通常建模为 Web Api，但不是必须的。 Identity Token身份令牌(Identity Token)表示身份认证(authentication)的结果。它至少包含用户的标识符，还包含用户的认证时间和认证方式。它还可以包含一些额外的身份数据。 Access Token访问令牌(access token)允许访问API资源。客户端请求访问令牌并将它们转发到API。访问令牌包含客户端信息和用户信息(如果存在)，API使用这些信息去授权(Autorize)访问其数据。]]></content>
+      <categories>
+        <category>Identity Server 4</category>
+      </categories>
+      <tags>
+        <tag>Identity Server 4</tag>
+        <tag>Asp.net core</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Asp.net Core身份认证框架IdentityServer4（1）目录]]></title>
+    <url>%2F2018%2F08%2F11%2FAsp.net-Core%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E6%A1%86%E6%9E%B6IdentityServer4%EF%BC%881%EF%BC%89%E7%9B%AE%E5%BD%95%2F</url>
+    <content type="text"><![CDATA[术语 安装和概述 使用客户端凭证保护API]]></content>
+      <categories>
+        <category>Identity Server 4</category>
+      </categories>
+      <tags>
+        <tag>Identity Server 4</tag>
+        <tag>Asp.net core</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[next常见问题处理]]></title>
+    <url>%2F2018%2F07%2F28%2Fnext%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86%2F</url>
+    <content type="text"><![CDATA[如何为next添加背景图1.下载图片，放到主题的images目录下 2.修改主题的/source/css/_custom/_custom.styl文件，添加123body &#123; background:url(/images/background.jpg) &#125; next引用标签(blockquote)中的内容不超出屏幕不自动换行修改主题的/source/css/_custom/_custom.styl文件，添加123blockquote &#123; word-break: break-all;&#125; 如何为文章添加图片首先修改配置文件_config.ymlf的post_asset_folder项值为true 使用命令创建新的博客：1$ hexo new "blogname" 创建后，source/_post 目录下会出现一个blogname.md的博客文件和一个标题同名的关联文件夹。 将图片放到关联文件后，通过以下代码显示图片1&#123;% asset_img test_image01.png %&#125; hexo推荐使用该方式显示图片，而不是Markdown的![alet](url)语法。这样可以避免在首页图片无法显示的问题。 注:该方法显示图片，需要hexo版本在3.0以及以上。 如何为站点添加相册功能如何为站点添加相册功能 当前使用的改进方法]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Next</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[如何使用hexo搭建博客]]></title>
+    <url>%2F2018%2F07%2F27%2F%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%2F</url>
+    <content type="text"><![CDATA[Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。 安装前提在安装 hexo 前，您必须检查电脑中是否已安装下列应用程序： nodejs git 项目安装本教程环境为win10，程序安装完成后，使用管理员权限打开控制台，使用npm完成对hexo的安装1$ npm install -g hexo-cli 安装完成后，新建空的项目文件夹，cd到该目录下后，对hexo初始化项目1$ hexo init 安装完成后，使用以下命令生成新的博客，生成的博客在\source\_posts目录下。1$ hexo new "mysirtblog" 然后清空缓，然后存生成静态文件123$ hexo clean$ hexo generate 启动服务，预览效果1$ hexo server 运行后如下图所示 注：hexo默认使用4000端口，如果该端口已被其他程序占用（例如福昕pdf），会运行失败。可以指定端口运行:1$ hexo server -p 5000 至此 hexo 全部安装完成。 Next 博客模板接下来我们安装 Next 模板，该模板是一套非常简洁的博客模板，你也可以选择其他喜欢的模板安装。 安装Next模板通过git下载模板，你也可以直接在git上下载该模板的zip包，然后解压到站点的themes目录下。 1$ git clone https://github.com/theme-next/hexo-theme-next.git themes/next 下载完成后，cd到themes/next目录，初始化next的依赖包1$ npm install 启用主题打开站点配置文件（根目录的_config.yml)，找到 theme 字段，并将其值更改为 next。 theme: next 关于next更多的操作，可见官网。 Hexo 常用命令123456789$ hexo new "mysirtblog" *//新建博客*$ hexo clean //清空缓存数据$ hexo generate //生成博客静态文件$ hexo server -p 5000 //运行博客站点，若不制定端口 -p 5000 ，则默认使用http://localhost:4000端口$ hexo deploy //发布站点]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Next</tag>
+      </tags>
+  </entry>
+</search>
