@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在这个项目示例中，我们想通过OpenID Connect协议为IdentityServer添加交互用户认证的支持。 我们将创建一个使用IdentityServer认证的MVC应用程序。">
+<meta name="keywords" content="Identity Server 4,Asp.net core">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Asp.net Core身份认证框架IdentityServer4（6）使用OpenID Connect添加用户认证">
+<meta property="og:url" content="http://yoursite.com/2018/09/02/Asp-net-Core身份认证框架IdentityServer4（6）使用OpenID-Connect添加用户认证/index.html">
+<meta property="og:site_name" content="Ainslee">
+<meta property="og:description" content="在这个项目示例中，我们想通过OpenID Connect协议为IdentityServer添加交互用户认证的支持。 我们将创建一个使用IdentityServer认证的MVC应用程序。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2018/09/02/Asp-net-Core身份认证框架IdentityServer4（6）使用OpenID-Connect添加用户认证/quickStart_06.png">
+<meta property="og:image" content="http://yoursite.com/2018/09/02/Asp-net-Core身份认证框架IdentityServer4（6）使用OpenID-Connect添加用户认证/quickStart_07.png">
+<meta property="og:image" content="http://yoursite.com/2018/09/02/Asp-net-Core身份认证框架IdentityServer4（6）使用OpenID-Connect添加用户认证/quickStart_08.png">
+<meta property="og:image" content="http://yoursite.com/2018/09/02/Asp-net-Core身份认证框架IdentityServer4（6）使用OpenID-Connect添加用户认证/quickStart_09.png">
+<meta property="og:updated_time" content="2018-09-02T03:59:30.068Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Asp.net Core身份认证框架IdentityServer4（6）使用OpenID Connect添加用户认证">
+<meta name="twitter:description" content="在这个项目示例中，我们想通过OpenID Connect协议为IdentityServer添加交互用户认证的支持。 我们将创建一个使用IdentityServer认证的MVC应用程序。">
+<meta name="twitter:image" content="http://yoursite.com/2018/09/02/Asp-net-Core身份认证框架IdentityServer4（6）使用OpenID-Connect添加用户认证/quickStart_06.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/02/Asp-net-Core身份认证框架IdentityServer4（6）使用OpenID-Connect添加用户认证/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Asp.net Core身份认证框架IdentityServer4（6）使用OpenID Connect添加用户认证 | Ainslee</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ainslee</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签<span class="badge">6</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类<span class="badge">3</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">9</span></a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/02/Asp-net-Core身份认证框架IdentityServer4（6）使用OpenID-Connect添加用户认证/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Fatpanda">
+      <meta itemprop="description" content="岂能尽如人意，但求无愧于心。">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ainslee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Asp.net Core身份认证框架IdentityServer4（6）使用OpenID Connect添加用户认证
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-02 11:42:25 / 修改时间：11:59:30" itemprop="dateCreated datePublished" datetime="2018-09-02T11:42:25+08:00">2018-09-02</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Identity-Server-4/" itemprop="url" rel="index"><span itemprop="name">Identity Server 4</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/02/Asp-net-Core身份认证框架IdentityServer4（6）使用OpenID-Connect添加用户认证/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/09/02/Asp-net-Core身份认证框架IdentityServer4（6）使用OpenID-Connect添加用户认证/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/09/02/Asp-net-Core身份认证框架IdentityServer4（6）使用OpenID-Connect添加用户认证/" class="leancloud_visitors" data-flag-title="Asp.net Core身份认证框架IdentityServer4（6）使用OpenID Connect添加用户认证">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在这个项目示例中，我们想通过OpenID Connect协议为IdentityServer添加交互用户认证的支持。</p>
+<p>我们将创建一个使用IdentityServer认证的MVC应用程序。<br><a id="more"></a></p>
+<h1 id="添加UI"><a href="#添加UI" class="headerlink" title="添加UI"></a>添加UI</h1><p>OpenID Connect所需要的所有协议支持都已经内置到IdentityServer。你需要为登录、注销、同意协议、错误等页面提供必需的UI部分。</p>
+<p>虽然在每个IdentityServer实现中，外观和确切的工作流可能总是不同的，我们提供一个基于MVC的示例UI，你可以作为开始使用。</p>
+<p>你可以在<a href="https://github.com/IdentityServer/IdentityServer4.Quickstart.UI/tree/release" target="_blank" rel="noopener">Quickstart UI repo</a>找到这个UI。你也可以克隆或下载这个项目，然后复制controllers, views, models和CSS到你的IdentityServer Web应用程序(先前创建的Identity Server应用程序)。</p>
+<p>一旦你添加了MVC UI 资源，你同样需要添加MVC到依赖注入(DI)系统和管道中。使用<code>AddMVC</code>扩展方法添加MVC到<code>ConfigureServices</code>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ConfigureServices</span><span class="params">(IServiceCollection services)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    services.AddMvc();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//IdentityServer配置in-memory存储,键(Keys),客户端和资源，测试用户</span></span><br><span class="line">    services.AddIdentityServer()</span><br><span class="line">            .AddDeveloperSigningCredential()</span><br><span class="line">            .AddInMemoryApiResources(Config.GetApiResources())</span><br><span class="line">            .AddInMemoryClients(Config.GetClients())</span><br><span class="line">            .AddTestUsers(Config.GetUsers());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用<code>UserMVC</code>扩展方法，在<code>Configure</code>的管道中添加MVC作为最后一个中间件(middleware):<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Configure</span><span class="params">(IApplicationBuilder app, IHostingEnvironment env)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (env.IsDevelopment())</span><br><span class="line">    &#123;</span><br><span class="line">        app.UseDeveloperExceptionPage();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    app.UseIdentityServer();</span><br><span class="line"></span><br><span class="line">    app.UseStaticFiles();</span><br><span class="line">    <span class="comment">//添加MVC中间件</span></span><br><span class="line">    app.UseMvcWithDefaultRoute();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="创建MVC客户端"><a href="#创建MVC客户端" class="headerlink" title="创建MVC客户端"></a>创建MVC客户端</h1><p>下一步，你将添加一个MVC应用程序到你的解决方案，可以使用’ASP.NET Core Web 应用程序’模板。在向导程序中，不要配置‘身份认证’设置，你将在这个项目中手动处理身份认证。项目创建完成后，参考（3）安装和概述配置，配置项目使用5002端口。</p>
+<img src="/2018/09/02/Asp-net-Core身份认证框架IdentityServer4（6）使用OpenID-Connect添加用户认证/quickStart_06.png">
+<p>要向MVC应用程序添加OpenID Connect身份认证支持，添加以下代码到<code>Startup</code>的<code>ConfigureServices</code>方法中：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ConfigureServices</span><span class="params">(IServiceCollection services)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    services.AddMvc();</span><br><span class="line"></span><br><span class="line">    JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();</span><br><span class="line"></span><br><span class="line">    services.AddAuthentication(options =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        &#123;</span><br><span class="line">            options.DefaultScheme = <span class="string">"Cookies"</span>;</span><br><span class="line">            options.DefaultChallengeScheme = <span class="string">"oidc"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    .AddCookie(<span class="string">"Cookies"</span>)</span><br><span class="line">    .AddOpenIdConnect(<span class="string">"oidc"</span>, options =&gt; &#123;</span><br><span class="line">        options.SignInScheme = <span class="string">"Cookies"</span>;</span><br><span class="line">        options.Authority = <span class="string">"http://localhost:5000"</span>;</span><br><span class="line">        options.RequireHttpsMetadata = <span class="keyword">false</span>;</span><br><span class="line">        options.ClientId = <span class="string">"mvc"</span>;</span><br><span class="line">        options.SaveTokens = <span class="keyword">true</span>;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>AddAuthentication</code>添加身份认证服务到DI。我们使用cookies作为认证用户的主要方式(使用<code>Cookies</code>作为默认方案)。我们设置<code>DefaultChallengeScheme</code>的值为<code>oidc</code>，因为当需要用户登录时，我们将使用OpenID Connect 方案。</p>
+<p>然后，我们使用<code>AddCookie</code>添加可以处理cookie的处理程序(handler)。</p>
+<p>最后，使用<code>AddOpenIdConnect</code>配置执行OpenID Connect协议的处理程序</p>
+<ul>
+<li><code>Authority</code>：指示我们信任的IdentityServer地址</li>
+<li><code>ClientId</code>：识别客户端</li>
+<li><code>SignInScheme</code>： 一旦OpenID Connect协议完成，使用cookie处理程发出一个cookie</li>
+<li><code>SaveTokens</code>：在cookie中持久化来自IdentityServer的令牌</li>
+</ul>
+<p>此外，我们还关闭了JWT Claim类型映射，以允许众所周知的Claim(如’sub’和’idp’)在不受干扰的情况下通过:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();</span><br></pre></td></tr></table></figure>
+<p>为确保身份认证服务在每个请求执行，在<code>Startup.cs</code>的<code>Configure</code>方法中添加<code>UseAuthentication</code>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Configure</span><span class="params">(IApplicationBuilder app, IHostingEnvironment env)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (env.IsDevelopment())</span><br><span class="line">    &#123;</span><br><span class="line">        app.UseDeveloperExceptionPage();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        app.UseExceptionHandler(<span class="string">"/Error"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    app.UseAuthentication();</span><br><span class="line"></span><br><span class="line">    app.UseStaticFiles();</span><br><span class="line">    app.UseMvcWithDefaultRoute();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>身份认证中间件应该在MVC中间件之前添加到管道中。</p>
+<p>最后一步是触发身份认证。转到home控制器，为一个Action添加<code>[Authorize]</code>特性。同时修改该Action的视图(View)，来展示Claims的信息：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dl</span>&gt;</span></span><br><span class="line">    @foreach (var claim in User.Claims)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="tag">&lt;<span class="name">dt</span>&gt;</span>@claim.Type<span class="tag">&lt;/<span class="name">dt</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dd</span>&gt;</span>@claim.Value<span class="tag">&lt;/<span class="name">dd</span>&gt;</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">dl</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>现在，如果你使用浏览器导航到这个路由，将尝试重定向到IdentyServer-这会返回一个错误结果，因为客户端还未注册。</p>
+<h1 id="为OpenID-Connect身份作用域-Identity-Scopes-添加支持"><a href="#为OpenID-Connect身份作用域-Identity-Scopes-添加支持" class="headerlink" title="为OpenID Connect身份作用域(Identity Scopes)添加支持"></a>为OpenID Connect身份作用域(Identity Scopes)添加支持</h1><p>与OAuth 2.0类似，OpenID Connect同样使用作用域概念。作用域代表你想保护以及客户端想访问的内容。对比OAuth，OIDC(OpenID Connenct)作用域并不是表示API，而是类似于用户id，姓名或者邮箱地址的用户身份数据。</p>
+<p>通过添加一个新的帮助方法（在<code>Config.cs</code>）来创建<code>IdentityResource</code>对象集合，添加标准的<code>openid</code>(subject id)和<code>profie</code>(first name,last name等)的支持：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// &lt;summary&gt;</span></span><br><span class="line"><span class="comment">/// 添加身份资源(OpenId Connect)</span></span><br><span class="line"><span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line"><span class="comment">/// &lt;returns&gt;&lt;/returns&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IEnumerable&lt;IdentityResource&gt; <span class="title">GetIdentityResources</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> List&lt;IdentityResource&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">new</span> IdentityResources.OpenId(),</span><br><span class="line">        <span class="keyword">new</span> IdentityResources.Profile(),</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><em>注: 所有标准的作用域和它们对应的claims可以在OpenId Connect<a href="https://openid.net/specs/openid-connect-core-1_0.html#ScopeClaims" target="_blank" rel="noopener">说明书</a>里找到。</em></p>
+<p>然后，你需要在<code>StartUp.cs</code>中添加这些身份资源到你的IdentityServer配置。在调用<code>AddIdentityServer()</code>的地方使用<code>AddInMemoryIdentityResources</code>扩展方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ConfigureServices</span><span class="params">(IServiceCollection services)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    services.AddMvc();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//IdentityServer配置in-memory存储,键(Keys),客户端和资源，测试用户</span></span><br><span class="line">    services.AddIdentityServer()</span><br><span class="line">            .AddDeveloperSigningCredential()</span><br><span class="line">            .AddInMemoryApiResources(Config.GetApiResources())</span><br><span class="line">            .AddInMemoryClients(Config.GetClients())</span><br><span class="line">            .AddTestUsers(Config.GetUsers())</span><br><span class="line">            .AddInMemoryIdentityResources(Config.GetIdentityResources());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="为OpenID-Connect隐式流添加客户端"><a href="#为OpenID-Connect隐式流添加客户端" class="headerlink" title="为OpenID Connect隐式流添加客户端"></a>为OpenID Connect隐式流添加客户端</h1><p>最后一步是向IdentityServer添加MVC客户端的新配置条目。</p>
+<p>基于OpenID Connect的客户端与我们目前添加的OAuth 2.0客户端非常相似。但是，因为在OIDC的流是经常交互的，我们需要为配置添加一些重定向Urls。</p>
+<p>将以下代码添加到你的客户端配置中：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// &lt;summary&gt;</span></span><br><span class="line"><span class="comment">/// 添加OpenID Connect客户端</span></span><br><span class="line"><span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line"><span class="comment">/// &lt;returns&gt;&lt;/returns&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> IEnumerable&lt;Client&gt; <span class="title">GetClients</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    var list = <span class="keyword">new</span> List&lt;Client&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//使用用户凭据认证</span></span><br><span class="line">    var client = <span class="keyword">new</span> Client</span><br><span class="line">    &#123;</span><br><span class="line">        ClientId = <span class="string">"mvc"</span>,</span><br><span class="line">        ClientName = <span class="string">"MVC Client"</span>,</span><br><span class="line">        <span class="comment">//交互用户，使用OpenID Connect认证</span></span><br><span class="line">        AllowedGrantTypes = GrantTypes.Implicit,</span><br><span class="line">        <span class="comment">//登录后重定向地址</span></span><br><span class="line">        RedirectUris = &#123; <span class="string">"http://localhost:5002/signin-oidc"</span> &#125;,</span><br><span class="line">        <span class="comment">//注销后重定向地址</span></span><br><span class="line">        PostLogoutRedirectUris = &#123; <span class="string">"http://localhost:5002/signout-callback-oidc"</span> &#125;,</span><br><span class="line">        <span class="comment">//客户端要访问的作用域(Identity)</span></span><br><span class="line">        AllowedScopes = &#123;</span><br><span class="line">            IdentityServerConstants.StandardScopes.OpenId,</span><br><span class="line">            IdentityServerConstants.StandardScopes.Profile</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    list.Add(client);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="测试客户端"><a href="#测试客户端" class="headerlink" title="测试客户端"></a>测试客户端</h1><p>现在，对新的MVC客户端，一切都已准备就绪。</p>
+<p>导航到受保护的控制器Action来触发身份认证。你应该会看到一个重定向到IdentityServer的登录页。</p>
+<img src="/2018/09/02/Asp-net-Core身份认证框架IdentityServer4（6）使用OpenID-Connect添加用户认证/quickStart_07.png">
+<p>使用IdentityServer中配置的用户名和密码登录成功后，屏幕上会显示同意页。在这里，用户可以决定是否要将身份信息发布到客户端应用程序。</p>
+<img src="/2018/09/02/Asp-net-Core身份认证框架IdentityServer4（6）使用OpenID-Connect添加用户认证/quickStart_08.png">
+<p>最后，浏览器重定向返回到客户端应用程序，显示用户claims。<br><img src="/2018/09/02/Asp-net-Core身份认证框架IdentityServer4（6）使用OpenID-Connect添加用户认证/quickStart_09.png"></p>
+<h1 id="添加注销"><a href="#添加注销" class="headerlink" title="添加注销"></a>添加注销</h1><p>最后，是为MVC客户端添加注销功能。</p>
+<p>像IdentityServer这样的身份认证权限服务，仅仅清除本地应用的cookies是不够的。此外，你还需要往返IdentityServer以清除中心单点登录(SSO)会话。</p>
+<p>OpenID Connect中间件已经实现了准确的协议步骤，简单的在控制器填写以下代码来触发注销：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> async Task <span class="title">LogOut</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    await HttpContext.SignOutAsync(<span class="string">"Cookies"</span>);</span><br><span class="line">    await HttpContext.SignOutAsync(<span class="string">"oidc"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这将清理本地的Cookie，然后重定向到IdentityServer。IdentityServer会清理掉它的Cookie并且为用户提供一个返回到MVC应用的链接。</p>
+<h1 id="进一步实验"><a href="#进一步实验" class="headerlink" title="进一步实验"></a>进一步实验</h1><p>如上所诉，OpenID Connect中间件默认要求profile作用域。这个作用域同样可以包括像‘name’、‘website’等claims。</p>
+<p>让我们为用户添加这些claims，因此IdentityServer可以把这些信息放到身份令牌(identity token)中：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;TestUser&gt; <span class="title">GetUsers</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    var users = <span class="keyword">new</span> List&lt;TestUser&gt;();</span><br><span class="line"></span><br><span class="line">    var user = <span class="keyword">new</span> TestUser()</span><br><span class="line">    &#123;</span><br><span class="line">        SubjectId = <span class="string">"1"</span>,</span><br><span class="line">        Username = <span class="string">"ainslee"</span>,</span><br><span class="line">        Password = <span class="string">"password"</span>,</span><br><span class="line">        Claims = <span class="keyword">new</span>[]</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">new</span> Claim(<span class="string">"name"</span>,<span class="string">"Ainslee"</span>),</span><br><span class="line">            <span class="keyword">new</span> Claim(<span class="string">"website"</span>,<span class="string">"http://ainslee.io"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    users.Add(user);</span><br><span class="line"></span><br><span class="line">    user = <span class="keyword">new</span> TestUser()</span><br><span class="line">    &#123;</span><br><span class="line">        SubjectId = <span class="string">"2"</span>,</span><br><span class="line">        Username = <span class="string">"joyjoy"</span>,</span><br><span class="line">        Password = <span class="string">"password"</span>,</span><br><span class="line">        Claims = <span class="keyword">new</span>[]</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">new</span> Claim(<span class="string">"name"</span>,<span class="string">"joyjoy"</span>),</span><br><span class="line">            <span class="keyword">new</span> Claim(<span class="string">"website"</span>,<span class="string">"http://joyjoy.io"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    users.Add(user);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> users;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下次登录认证后，你的Claims页面会显示额外的claims信息。</p>
+<p>请随意添加更多的claims和作用域。在OpenID Connect中间件上，<code>Scope</code>属性是您配置在身份验证期间将哪些作用域发送到IdentityServer的地方。</p>
+<p>同样值得注意的是，检索令牌Claims是一个可扩展性点——<code>IProfileService</code>。由于我们使用的是<code>AddTestUsers</code>，所以<code>TestUserProfileService</code>默认使用。你可以参考源码，自定义自己的User用户。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Identity-Server-4/" rel="tag"># Identity Server 4</a>
+          
+            <a href="/tags/Asp-net-core/" rel="tag"># Asp.net core</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/24/Asp-net-Core身份认证框架IdentityServer4（5）使用密码保护API/" rel="next" title="Asp.net Core身份认证框架IdentityServer4（5）使用密码保护API">
+                <i class="fa fa-chevron-left"></i> Asp.net Core身份认证框架IdentityServer4（5）使用密码保护API
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/header.jpg"
+                alt="Fatpanda" />
+            
+              <p class="site-author-name" itemprop="name">Fatpanda</p>
+              <p class="site-description motion-element" itemprop="description">岂能尽如人意，但求无愧于心。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#添加UI"><span class="nav-number">1.</span> <span class="nav-text">添加UI</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建MVC客户端"><span class="nav-number">2.</span> <span class="nav-text">创建MVC客户端</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为OpenID-Connect身份作用域-Identity-Scopes-添加支持"><span class="nav-number">3.</span> <span class="nav-text">为OpenID Connect身份作用域(Identity Scopes)添加支持</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为OpenID-Connect隐式流添加客户端"><span class="nav-number">4.</span> <span class="nav-text">为OpenID Connect隐式流添加客户端</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试客户端"><span class="nav-number">5.</span> <span class="nav-text">测试客户端</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加注销"><span class="nav-number">6.</span> <span class="nav-text">添加注销</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进一步实验"><span class="nav-number">7.</span> <span class="nav-text">进一步实验</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Fatpanda</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'DowwEbHFSgFNCuLAvg9uaO6A-gzGzoHsz',
+        appKey: 'Aa0TLy6wVuN4f4XPunLpvpj7',
+        placeholder: '请留下你的评论...',
+        avatar:'mm',
+        meta:guest,
+        pageSize:'10' || 10,
+        visitor: true
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

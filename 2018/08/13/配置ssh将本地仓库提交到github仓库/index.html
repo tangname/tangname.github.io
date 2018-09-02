@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="Ainslee">
 <meta property="og:description" content="配置ssh配置账号和密码12$ git config --global user.name &quot;myUsername&quot; //配置你的账户名字$ git config --global user.email &quot;myEmail&quot; //配置你的创建github账户的邮箱 配置完成后，可通过以下命令查看配置的结果12$ git config user.name$ git config user.email">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-25T07:15:14.165Z">
+<meta property="og:updated_time" content="2018-09-01T01:07:47.403Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="配置ssh将本地仓库提交到github仓库">
 <meta name="twitter:description" content="配置ssh配置账号和密码12$ git config --global user.name &quot;myUsername&quot; //配置你的账户名字$ git config --global user.email &quot;myEmail&quot; //配置你的创建github账户的邮箱 配置完成后，可通过以下命令查看配置的结果12$ git config user.name$ git config user.email">
@@ -246,7 +246,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">8</span></a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">9</span></a>
   </li>
         
         
@@ -395,7 +395,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-08-25 15:15:14" itemprop="dateModified" datetime="2018-08-25T15:15:14+08:00">2018-08-25</time>
+                <time title="修改时间：2018-09-01 09:07:47" itemprop="dateModified" datetime="2018-09-01T09:07:47+08:00">2018-09-01</time>
               
             
           </span>
@@ -492,8 +492,8 @@
 <p>##账号<br>User git<br>PreferredAuthentications publickey  </p>
 <p>##指定私钥文件，默认为~/.ssh/id_rsa<br>IdentityFile ~/.ssh/id_rsa.wu  </p>
 </blockquote>
-<p><code>~/.ssh/id_rsa.wu</code>为生成ssh时，个人指定的文件路径，默认名称为<code>~/.ssh/id_rsa.wu</code>。</p>
-<h2 id="测试ssh"><a href="#测试ssh" class="headerlink" title="测试ssh"></a>测试ssh</h2><p>使用一下命名，测试ssh是否可用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git@github_wu.com</span><br></pre></td></tr></table></figure></p>
+<p><code>~/.ssh/id_rsa.wu</code>为生成ssh时，个人指定的文件路径，默认名称为<code>~/.ssh/id_rsa</code>。</p>
+<h2 id="测试ssh"><a href="#测试ssh" class="headerlink" title="测试ssh"></a>测试ssh</h2><p>使用一下命名，测试ssh是否可用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T -V git@github_wu.com</span><br></pre></td></tr></table></figure></p>
 <p>成功显示如下：</p>
 <blockquote>
 <p>Hi tangname! You’ve successfully authenticated, but GitHub does not provide shell access.</p>
@@ -511,9 +511,9 @@
 <p>添加关联<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add origin git@github.com:tangname/myblog.git</span><br></pre></td></tr></table></figure></p>
 <p>注：若是ssh配置了别名，则按配置的别名使用，例如使用 一、4、修改配置文件的配置，则命令如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add origin git@github_wu.com:tangname/myblog.git</span><br></pre></td></tr></table></figure></p>
 <p>查看已配置的远程仓库<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote</span><br></pre></td></tr></table></figure></p>
-<p>列表显示<code>orgin</code>，表明该远程仓库已经关联成功。</p>
+<p>列表显示<code>origin</code>，表明该远程仓库已经关联成功。</p>
 <p>然后执行命令，将本地仓库推送到远程仓库:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin master</span><br></pre></td></tr></table></figure></p>
-<p>其中，<code>orgin</code>为远程仓库别名，<code>master</code>为远程仓库中的分支名称。</p>
+<p>其中，<code>origin</code>为远程仓库别名，<code>master</code>为远程仓库中的分支名称。</p>
 <p>至此，所有步骤完成。</p>
 
       
@@ -639,7 +639,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
