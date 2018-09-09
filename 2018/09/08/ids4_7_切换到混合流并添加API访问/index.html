@@ -108,29 +108,25 @@
 
 
 
-  <meta name="description" content="开始一个新的IdentityServer项目有两种基本的方式：  从头开始 在Visual Studio中使用ASP.NET Identity模板开始  如果你从头开始，我们提供了一些帮助和in-memory的存储。因此，你不必一开始就担心持久(persistence)性。 如果你从ASP.NET Identity模板开始，我们同样提供了一种简单的方法来集成。 快速开始(Quickstarts)教">
+  <meta name="description" content="在之前的快速入门示例中，我们探索了API访问和用户身份认证。现在我们要把这两部分结合起来。 OpenID Connect 和 OAuth 2.0 结合的美妙之处在于，你可以使用单个协议和使用令牌服务单次交换来实现两者。 上一个例子中，我们使用了OpenID Connect显示流(implicit flow)。在显示流中所有的令牌都是通过浏览器传输的，这对于身份令牌（identity token）来">
 <meta name="keywords" content="Asp.net core,Identity Server 4">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Asp.net Core身份认证框架IdentityServer4（3）安装和概述">
-<meta property="og:url" content="http://yoursite.com/2018/08/16/Asp-net-Core身份认证框架IdentityServer4（3）安装和概述/index.html">
+<meta property="og:title" content="Asp.net Core身份认证框架IdentityServer4（7）切换到混合流并添加API访问">
+<meta property="og:url" content="http://yoursite.com/2018/09/08/ids4_7_切换到混合流并添加API访问/index.html">
 <meta property="og:site_name" content="Ainslee">
-<meta property="og:description" content="开始一个新的IdentityServer项目有两种基本的方式：  从头开始 在Visual Studio中使用ASP.NET Identity模板开始  如果你从头开始，我们提供了一些帮助和in-memory的存储。因此，你不必一开始就担心持久(persistence)性。 如果你从ASP.NET Identity模板开始，我们同样提供了一种简单的方法来集成。 快速开始(Quickstarts)教">
+<meta property="og:description" content="在之前的快速入门示例中，我们探索了API访问和用户身份认证。现在我们要把这两部分结合起来。 OpenID Connect 和 OAuth 2.0 结合的美妙之处在于，你可以使用单个协议和使用令牌服务单次交换来实现两者。 上一个例子中，我们使用了OpenID Connect显示流(implicit flow)。在显示流中所有的令牌都是通过浏览器传输的，这对于身份令牌（identity token）来">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2018/08/16/Asp-net-Core身份认证框架IdentityServer4（3）安装和概述/quickStart_01.png">
-<meta property="og:image" content="http://yoursite.com/2018/08/16/Asp-net-Core身份认证框架IdentityServer4（3）安装和概述/quickStart_02.png">
-<meta property="og:image" content="http://yoursite.com/2018/08/16/Asp-net-Core身份认证框架IdentityServer4（3）安装和概述/quickStart_03.png">
-<meta property="og:updated_time" content="2018-09-02T03:58:41.868Z">
+<meta property="og:updated_time" content="2018-09-09T01:54:51.353Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Asp.net Core身份认证框架IdentityServer4（3）安装和概述">
-<meta name="twitter:description" content="开始一个新的IdentityServer项目有两种基本的方式：  从头开始 在Visual Studio中使用ASP.NET Identity模板开始  如果你从头开始，我们提供了一些帮助和in-memory的存储。因此，你不必一开始就担心持久(persistence)性。 如果你从ASP.NET Identity模板开始，我们同样提供了一种简单的方法来集成。 快速开始(Quickstarts)教">
-<meta name="twitter:image" content="http://yoursite.com/2018/08/16/Asp-net-Core身份认证框架IdentityServer4（3）安装和概述/quickStart_01.png">
+<meta name="twitter:title" content="Asp.net Core身份认证框架IdentityServer4（7）切换到混合流并添加API访问">
+<meta name="twitter:description" content="在之前的快速入门示例中，我们探索了API访问和用户身份认证。现在我们要把这两部分结合起来。 OpenID Connect 和 OAuth 2.0 结合的美妙之处在于，你可以使用单个协议和使用令牌服务单次交换来实现两者。 上一个例子中，我们使用了OpenID Connect显示流(implicit flow)。在显示流中所有的令牌都是通过浏览器传输的，这对于身份令牌（identity token）来">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/08/16/Asp-net-Core身份认证框架IdentityServer4（3）安装和概述/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/09/08/ids4_7_切换到混合流并添加API访问/"/>
 
 
 
@@ -140,7 +136,7 @@
   };
 </script>
 
-  <title>Asp.net Core身份认证框架IdentityServer4（3）安装和概述 | Ainslee</title>
+  <title>Asp.net Core身份认证框架IdentityServer4（7）切换到混合流并添加API访问 | Ainslee</title>
   
 
 
@@ -340,7 +336,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/16/Asp-net-Core身份认证框架IdentityServer4（3）安装和概述/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/08/ids4_7_切换到混合流并添加API访问/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Fatpanda">
@@ -357,7 +353,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Asp.net Core身份认证框架IdentityServer4（3）安装和概述
+          <h1 class="post-title" itemprop="name headline">Asp.net Core身份认证框架IdentityServer4（7）切换到混合流并添加API访问
               
             
           </h1>
@@ -382,7 +378,7 @@
                 
               
 
-              <time title="创建时间：2018-08-16 16:26:23" itemprop="dateCreated datePublished" datetime="2018-08-16T16:26:23+08:00">2018-08-16</time>
+              <time title="创建时间：2018-09-08 10:47:15" itemprop="dateCreated datePublished" datetime="2018-09-08T10:47:15+08:00">2018-09-08</time>
             
 
             
@@ -399,7 +395,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-09-02 11:58:41" itemprop="dateModified" datetime="2018-09-02T11:58:41+08:00">2018-09-02</time>
+                <time title="修改时间：2018-09-09 09:54:51" itemprop="dateModified" datetime="2018-09-09T09:54:51+08:00">2018-09-09</time>
               
             
           </span>
@@ -431,8 +427,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/16/Asp-net-Core身份认证框架IdentityServer4（3）安装和概述/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/16/Asp-net-Core身份认证框架IdentityServer4（3）安装和概述/" itemprop="commentCount"></span>
+                <a href="/2018/09/08/ids4_7_切换到混合流并添加API访问/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/09/08/ids4_7_切换到混合流并添加API访问/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -440,7 +436,7 @@
 
           
           
-             <span id="/2018/08/16/Asp-net-Core身份认证框架IdentityServer4（3）安装和概述/" class="leancloud_visitors" data-flag-title="Asp.net Core身份认证框架IdentityServer4（3）安装和概述">
+             <span id="/2018/09/08/ids4_7_切换到混合流并添加API访问/" class="leancloud_visitors" data-flag-title="Asp.net Core身份认证框架IdentityServer4（7）切换到混合流并添加API访问">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -471,34 +467,21 @@
       
 
       
-        <p>开始一个新的IdentityServer项目有两种基本的方式：</p>
-<ul>
-<li>从头开始</li>
-<li>在Visual Studio中使用ASP.NET Identity模板开始</li>
-</ul>
-<p>如果你从头开始，我们提供了一些帮助和in-memory的存储。因此，你不必一开始就担心持久(persistence)性。</p>
-<p>如果你从ASP.NET Identity模板开始，我们同样提供了一种简单的方法来集成。</p>
-<p>快速开始(Quickstarts)教程为多种常见的IdentityServer场景提供了逐步地指导。它们从绝对的基础知识开始，然后变的更加复杂–建议你按序操作。</p>
-<a id="more"></a>
-<p>每个Quickstart有一个相关的解决方案，你可以在Quickstarts文件夹中的<a href="&quot;https://identityserver4.readthedocs.io/en/release/quickstarts/0_overview.html&quot;">IdentityServer4.Samples</a>找到源码。</p>
-<h1 id="基本安装"><a href="#基本安装" class="headerlink" title="基本安装"></a>基本安装</h1><p>屏幕中的截图显示的是Visual Studio-但这不是必须的。</p>
-<p><strong>创建 QuickStart IdentityServer</strong></p>
-<p>通过创建Asp.NET Core Web 应用程序开始。</p>
-<img src="/2018/08/16/Asp-net-Core身份认证框架IdentityServer4（3）安装和概述/quickStart_01.png">
-<p>选择空项目模板。</p>
-<img src="/2018/08/16/Asp-net-Core身份认证框架IdentityServer4（3）安装和概述/quickStart_02.png">
-<p>然后添加 IdentityServer4 nuget 包。<br>可在 菜单栏-工具-Nuget包管理器-程序包管理器控制台打开控制台，然后运行以下命令添加包依赖<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PM&gt; Install-Package IdentityServer4</span><br></pre></td></tr></table></figure></p>
-<p><em>注意：</em><br><em>IdentityServer 1.x 版本使用ASP.NET Core 1.1,IdentityServer 2.x 版本使用ASP.NET Core 2.0。</em></p>
-<p>IdentityServer使用常规模式来配置和添加服务到ASP.NET Core宿主。在<code>ConfigureServices</code>中，必要的服务被配置并且添加到依赖注入(DI)系统。在<code>Configure</code>中，中间件(middleware)被添加到HTTP管道中。</p>
-<p>如下修改你的<code>Startup.cs</code>文件：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ConfigureServices</span><span class="params">(IServiceCollection services)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    services.AddIdentityServer()</span><br><span class="line">            .AddDeveloperSigningCredential();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Configure</span><span class="params">(IApplicationBuilder app, IHostingEnvironment env)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (env.IsDevelopment())</span><br><span class="line">    &#123;</span><br><span class="line">        app.UseDeveloperExceptionPage();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    app.UseIdentityServer();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><code>AddIdentityServer</code>在依赖注入(DI)中注册IdentityServer服务。它还为运行时状态注册一个In-Memory的存储，这对开发场景非常有用。在生产场景中，你需要一个像数据库或缓存一样的持久化或共享存储。</p>
-<p><code>AddDeveloperSigningCredential</code>扩展为登录token创建了一个临时的key。这可能对开始学习很有用，但是在生产场景中，你应该使用持久化Key替换掉它。</p>
-<p><em>注：IdentityServer未为启动做好准备，我们将会在接下来的示例中添加必须的服务。</em></p>
-<h1 id="修改主机"><a href="#修改主机" class="headerlink" title="修改主机"></a>修改主机</h1><p>Visual Studio默认使用IIS Express来寄宿你的Web项目。这是很好的方式，除了你不能从控制台看到时时输出的日志。</p>
-<p>IdentityServer 广泛的使用日志记录，然而在UI或者返回到客户端可见的错误信息是故意模糊的。</p>
-<p>我们推荐在控制台宿主(console host)中运行IdentityServer。可以通过项目(鼠标右键)-属性-调试-启动中选择下拉项[项目]，如下图：</p>
-<img src="/2018/08/16/Asp-net-Core身份认证框架IdentityServer4（3）安装和概述/quickStart_03.png">
-<p>为了方便后续示例，我们统一将项目端口设置为5000，见上图 Web服务器设置-应用Url:http:localhost:5000。</p>
+        <p>在之前的快速入门示例中，我们探索了API访问和用户身份认证。现在我们要把这两部分结合起来。</p>
+<p>OpenID Connect 和 OAuth 2.0 结合的美妙之处在于，你可以使用单个协议和使用令牌服务单次交换来实现两者。</p>
+<p>上一个例子中，我们使用了OpenID Connect显示流(implicit flow)。在显示流中所有的令牌都是通过浏览器传输的，这对于身份令牌（identity token）来说完全没有问题。现在我们也想请求一个访问令牌（access token）。<br><a id="more"></a></p>
+<p>访问令牌比身份令牌更加敏感，若无必要，我们不希望把它们暴露给‘外部’的世界。OpenID Connect包含一个叫’Hybrid Flow’(混合流)的流程，为我们提供了两全齐美的优势。身份令牌通过浏览器通道传输，因此客户端可以在进行其他任何更多工作前验证它。假如验证成功，客户端会打开一个令牌服务的反响通道取回访问令牌。</p>
+<h1 id="修改客户端配置"><a href="#修改客户端配置" class="headerlink" title="修改客户端配置"></a>修改客户端配置</h1><p>没有太多必要的修改。首先，我们希望允许客户端使用混合流(hybrid flow)。同时，我们还希望允许客户端执行不在用户上下文(context)中的服务端到服务端API的调用(这与我们之前的<a href="/2018/08/21/ids4_4_使用客户端凭证保护API/">客户端凭据快速开始项目</a>非常相似)。这里使用<code>AllowedGrantTypes</code>属性表示。</p>
+<p>下一步，我们需要添加一个客户端密钥。它将用于取回反向通道上的访问令牌。</p>
+<p>最后，我们还让客户端访问<code>offline_acess</code>作用域-这允许为长连接的API访问请求刷新令牌：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// &lt;summary&gt;</span></span><br><span class="line"><span class="comment">/// 添加Hybrid flow客户端</span></span><br><span class="line"><span class="comment">/// &lt;/summary&gt;</span></span><br><span class="line"><span class="comment">/// &lt;returns&gt;&lt;/returns&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IEnumerable&lt;Client&gt; <span class="title">GetClients</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    var list = <span class="keyword">new</span> List&lt;Client&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//使用用户凭据认证</span></span><br><span class="line">    var client = <span class="keyword">new</span> Client</span><br><span class="line">    &#123;</span><br><span class="line">        ClientId = <span class="string">"mvc"</span>,</span><br><span class="line">        ClientName = <span class="string">"MVC Client"</span>,</span><br><span class="line">        <span class="comment">//使用Hybrid flow认证</span></span><br><span class="line">        AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,</span><br><span class="line"></span><br><span class="line">        <span class="comment">//客户端密钥</span></span><br><span class="line">        ClientSecrets =</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">new</span> Secret(<span class="string">"secret"</span>.Sha256())</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        <span class="comment">//登录后重定向地址</span></span><br><span class="line">        RedirectUris = &#123; <span class="string">"http://localhost:5002/signin-oidc"</span> &#125;,</span><br><span class="line">        <span class="comment">//注销后重定向地址</span></span><br><span class="line">        PostLogoutRedirectUris = &#123; <span class="string">"http://localhost:5002/signout-callback-oidc"</span> &#125;,</span><br><span class="line">        <span class="comment">//客户端要访问的作用域(Identity)</span></span><br><span class="line">        AllowedScopes = &#123;</span><br><span class="line">            IdentityServerConstants.StandardScopes.OpenId,</span><br><span class="line">            IdentityServerConstants.StandardScopes.Profile,</span><br><span class="line">            <span class="string">"api1"</span> <span class="comment">//保护api</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">//允许刷新acess token</span></span><br><span class="line">        AllowOfflineAccess=<span class="keyword">true</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    list.Add(client);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> list;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="修改MVC客户端"><a href="#修改MVC客户端" class="headerlink" title="修改MVC客户端"></a>修改MVC客户端</h1><p>在MVC客户端的修改同样很少-ASP.NET Core OpenID Connect处理程序内置了对hybrid flow的支持，因此我们仅仅需要该百年一些配置值就可以了。</p>
+<p>我们配置<code>ClientSecret</code>匹配IdentityServer的secret。添加<code>offline_access</code>和<code>api1</code>作用域，并且设置<code>ResponseType</code>值为<code>code id_token</code>(基本上意思就是”使用hybrid flow”)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">.AddOpenIdConnect(<span class="string">"oidc"</span>, options =&gt; &#123;</span><br><span class="line">    options.SignInScheme = <span class="string">"Cookies"</span>;</span><br><span class="line">    options.Authority = <span class="string">"http://localhost:5000"</span>;</span><br><span class="line">    options.RequireHttpsMetadata = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    options.ClientId = <span class="string">"mvc"</span>;</span><br><span class="line">    options.ClientSecret = <span class="string">"secret"</span>;</span><br><span class="line">    options.ResponseType = <span class="string">"code id_token"</span>;</span><br><span class="line"></span><br><span class="line">    options.SaveTokens = <span class="keyword">true</span>;</span><br><span class="line">    options.GetClaimsFromUserInfoEndpoint = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    options.Scope.Add(<span class="string">"api1"</span>);</span><br><span class="line">    options.Scope.Add(<span class="string">"offline_access"</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>当你运行MVC客户端时，这没有太大的差异，此外consent屏幕现在会要求你提供额外的API和offline access 作用域。</p>
+<h1 id="使用访问令牌"><a href="#使用访问令牌" class="headerlink" title="使用访问令牌"></a>使用访问令牌</h1><p>OpenID Connect中间件自动为你保存令牌(在我们示例中的identity、acess和refresh令牌)。这就是<code>SaveTokens</code>配置所做的。</p>
+<p>从技术上讲，令牌存储在cookie的属性中。访问它们最简单的办法是使用来自<code>Microsoft.AspNetCore.Authentication</code>命名空间的扩展方法。</p>
+<p>例如在你的claims视图中：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dt</span>&gt;</span>access token<span class="tag">&lt;/<span class="name">dt</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dd</span>&gt;</span>@await ViewContext.HttpContext.GetTokenAsync("access_token")<span class="tag">&lt;/<span class="name">dd</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dt</span>&gt;</span>refresh token<span class="tag">&lt;/<span class="name">dt</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dd</span>&gt;</span>@await ViewContext.HttpContext.GetTokenAsync("refresh_token")<span class="tag">&lt;/<span class="name">dd</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>为使用access token访问API，你所需要做的就是取回令牌，然后再你的httpClient设置它：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> async Task&lt;IActionResult&gt; <span class="title">CallApiUsingUserAccessToken</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    var accessToken = await HttpContext.GetTokenAsync(<span class="string">"access_token"</span>);</span><br><span class="line"></span><br><span class="line">    var client = <span class="keyword">new</span> HttpClient();</span><br><span class="line">    client.SetBearerToken(accessToken);</span><br><span class="line">    var content = await client.GetStringAsync(<span class="string">"http://localhost:5001/identity"</span>);</span><br><span class="line"></span><br><span class="line">    ViewBag.Json = JArray.Parse(content).ToString();</span><br><span class="line">    <span class="keyword">return</span> View(<span class="string">"json"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注:<code>SetBearerToken</code>扩展方法在<code>IdentityModel</code>包中，需要添加包的引用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ install-package IdentityModel</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -534,8 +517,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/13/配置ssh将本地仓库提交到github仓库/" rel="next" title="配置ssh将本地仓库提交到github仓库">
-                <i class="fa fa-chevron-left"></i> 配置ssh将本地仓库提交到github仓库
+              <a href="/2018/09/05/Asp-net-Core访问远程文件夹/" rel="next" title="Asp.net Core访问远程文件夹">
+                <i class="fa fa-chevron-left"></i> Asp.net Core访问远程文件夹
               </a>
             
           </div>
@@ -543,10 +526,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/21/Asp-net-Core身份认证框架IdentityServer4（4）使用客户端凭证保护API/" rel="prev" title="Asp.net Core身份认证框架IdentityServer4（4）使用客户端凭证保护API">
-                Asp.net Core身份认证框架IdentityServer4（4）使用客户端凭证保护API <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -705,7 +684,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本安装"><span class="nav-number">1.</span> <span class="nav-text">基本安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改主机"><span class="nav-number">2.</span> <span class="nav-text">修改主机</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#修改客户端配置"><span class="nav-number">1.</span> <span class="nav-text">修改客户端配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改MVC客户端"><span class="nav-number">2.</span> <span class="nav-text">修改MVC客户端</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用访问令牌"><span class="nav-number">3.</span> <span class="nav-text">使用访问令牌</span></a></li></ol></div>
             
 
           </div>

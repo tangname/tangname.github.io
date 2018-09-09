@@ -108,27 +108,29 @@
 
 
 
-  <meta name="description" content="规范、文档和模型对象使用一些你应该知道的术语。">
+  <meta name="description" content="开始一个新的IdentityServer项目有两种基本的方式：  从头开始 在Visual Studio中使用ASP.NET Identity模板开始  如果你从头开始，我们提供了一些帮助和in-memory的存储。因此，你不必一开始就担心持久(persistence)性。 如果你从ASP.NET Identity模板开始，我们同样提供了一种简单的方法来集成。 快速入门教程为多种常见的Identi">
 <meta name="keywords" content="Asp.net core,Identity Server 4">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Asp.net Core身份认证框架IdentityServer4（2）术语">
-<meta property="og:url" content="http://yoursite.com/2018/08/11/Asp.net-Core身份认证框架IdentityServer4（2）术语/index.html">
+<meta property="og:title" content="Asp.net Core身份认证框架IdentityServer4（3）安装和概述">
+<meta property="og:url" content="http://yoursite.com/2018/08/16/ids4_3_安装和概述/index.html">
 <meta property="og:site_name" content="Ainslee">
-<meta property="og:description" content="规范、文档和模型对象使用一些你应该知道的术语。">
+<meta property="og:description" content="开始一个新的IdentityServer项目有两种基本的方式：  从头开始 在Visual Studio中使用ASP.NET Identity模板开始  如果你从头开始，我们提供了一些帮助和in-memory的存储。因此，你不必一开始就担心持久(persistence)性。 如果你从ASP.NET Identity模板开始，我们同样提供了一种简单的方法来集成。 快速入门教程为多种常见的Identi">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2018/08/11/Asp.net-Core身份认证框架IdentityServer4（2）术语/terminology.png">
-<meta property="og:updated_time" content="2018-08-25T07:15:14.160Z">
+<meta property="og:image" content="http://yoursite.com/2018/08/16/ids4_3_安装和概述/quickStart_01.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/16/ids4_3_安装和概述/quickStart_02.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/16/ids4_3_安装和概述/quickStart_03.png">
+<meta property="og:updated_time" content="2018-09-09T01:57:40.376Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Asp.net Core身份认证框架IdentityServer4（2）术语">
-<meta name="twitter:description" content="规范、文档和模型对象使用一些你应该知道的术语。">
-<meta name="twitter:image" content="http://yoursite.com/2018/08/11/Asp.net-Core身份认证框架IdentityServer4（2）术语/terminology.png">
+<meta name="twitter:title" content="Asp.net Core身份认证框架IdentityServer4（3）安装和概述">
+<meta name="twitter:description" content="开始一个新的IdentityServer项目有两种基本的方式：  从头开始 在Visual Studio中使用ASP.NET Identity模板开始  如果你从头开始，我们提供了一些帮助和in-memory的存储。因此，你不必一开始就担心持久(persistence)性。 如果你从ASP.NET Identity模板开始，我们同样提供了一种简单的方法来集成。 快速入门教程为多种常见的Identi">
+<meta name="twitter:image" content="http://yoursite.com/2018/08/16/ids4_3_安装和概述/quickStart_01.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/08/11/Asp.net-Core身份认证框架IdentityServer4（2）术语/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/16/ids4_3_安装和概述/"/>
 
 
 
@@ -138,7 +140,7 @@
   };
 </script>
 
-  <title>Asp.net Core身份认证框架IdentityServer4（2）术语 | Ainslee</title>
+  <title>Asp.net Core身份认证框架IdentityServer4（3）安装和概述 | Ainslee</title>
   
 
 
@@ -338,7 +340,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/11/Asp.net-Core身份认证框架IdentityServer4（2）术语/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/16/ids4_3_安装和概述/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Fatpanda">
@@ -355,7 +357,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Asp.net Core身份认证框架IdentityServer4（2）术语
+          <h1 class="post-title" itemprop="name headline">Asp.net Core身份认证框架IdentityServer4（3）安装和概述
               
             
           </h1>
@@ -380,7 +382,7 @@
                 
               
 
-              <time title="创建时间：2018-08-11 16:33:19" itemprop="dateCreated datePublished" datetime="2018-08-11T16:33:19+08:00">2018-08-11</time>
+              <time title="创建时间：2018-08-16 16:26:23" itemprop="dateCreated datePublished" datetime="2018-08-16T16:26:23+08:00">2018-08-16</time>
             
 
             
@@ -397,7 +399,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-08-25 15:15:14" itemprop="dateModified" datetime="2018-08-25T15:15:14+08:00">2018-08-25</time>
+                <time title="修改时间：2018-09-09 09:57:40" itemprop="dateModified" datetime="2018-09-09T09:57:40+08:00">2018-09-09</time>
               
             
           </span>
@@ -429,8 +431,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/08/11/Asp.net-Core身份认证框架IdentityServer4（2）术语/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/11/Asp.net-Core身份认证框架IdentityServer4（2）术语/" itemprop="commentCount"></span>
+                <a href="/2018/08/16/ids4_3_安装和概述/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/08/16/ids4_3_安装和概述/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -438,7 +440,7 @@
 
           
           
-             <span id="/2018/08/11/Asp.net-Core身份认证框架IdentityServer4（2）术语/" class="leancloud_visitors" data-flag-title="Asp.net Core身份认证框架IdentityServer4（2）术语">
+             <span id="/2018/08/16/ids4_3_安装和概述/" class="leancloud_visitors" data-flag-title="Asp.net Core身份认证框架IdentityServer4（3）安装和概述">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -469,30 +471,34 @@
       
 
       
-        <p>规范、文档和模型对象使用一些你应该知道的术语。</p>
-<img src="/2018/08/11/Asp.net-Core身份认证框架IdentityServer4（2）术语/terminology.png">
-<a id="more"></a>
-<h1 id="IdentityServer"><a href="#IdentityServer" class="headerlink" title="IdentityServer"></a>IdentityServer</h1><p>IdentityServer是一个<code>OpenID Connect</code>的提供程序。它实现了<code>OpenID Connect</code>和<code>OAuth 2.0</code>协议。</p>
-<p>不同的文献对相同的角色使用不同的术语——您可能还会找到安全令牌服务(security token service)、身份提供者(identity provider)、授权服务器(authorization server)、IP-STS等等。</p>
-<p>总而言之它们都是一样的：向客户端颁发安全令牌(security tokens)</p>
-<p>IdentityServer 有许多功能：</p>
+        <p>开始一个新的IdentityServer项目有两种基本的方式：</p>
 <ul>
-<li>保护你的资源</li>
-<li>使用本地存储账号或者外部身份提供程序对用户进行身份认证</li>
-<li>提供会话(Session)管理和单点登陆(SSO)</li>
-<li>管理和认证客户端</li>
-<li>向客户端发出标识(Identity tokens)和访问令牌(access tokens)</li>
-<li>验证令牌(validate tokens)</li>
+<li>从头开始</li>
+<li>在Visual Studio中使用ASP.NET Identity模板开始</li>
 </ul>
-<h1 id="User"><a href="#User" class="headerlink" title="User"></a>User</h1><p>用户(User)是使用已注册的客户端(registered client)去访问资源(resources)的人。</p>
-<h1 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h1><p>客户端(Client)是从IdentityServer请求令牌(token)的软件，用于认证用户(请求identity token)或者访问资源(请求access token)。客户端在请求令牌前，必须先向IdentityServer注册。</p>
-<p>客户端可以是Web应用，本地移动或桌面应用，单页应用(SPA)，服务进程(server process)等。</p>
-<h1 id="Resources"><a href="#Resources" class="headerlink" title="Resources"></a>Resources</h1><p>资源(Resource)是你希望IdentityServer要保护的内容-你的用户身份数据(identity data)或APIs。</p>
-<p>每个资源有唯一的名称-Client通过这个名称来指定它们想要访问的资源。</p>
-<p>身份数据(identity data)资源：关于用户的身份西信息，例如用户名、邮箱地址等。</p>
-<p>API资源: Api资源表示客户端想要调用的功能-通常建模为 Web Api，但不是必须的。</p>
-<h1 id="Identity-Token"><a href="#Identity-Token" class="headerlink" title="Identity Token"></a>Identity Token</h1><p>身份令牌(Identity Token)表示身份认证(authentication)的结果。它至少包含用户的标识符，还包含用户的认证时间和认证方式。它还可以包含一些额外的身份数据。</p>
-<h1 id="Access-Token"><a href="#Access-Token" class="headerlink" title="Access Token"></a>Access Token</h1><p>访问令牌(access token)允许访问API资源。客户端请求访问令牌并将它们转发到API。访问令牌包含客户端信息和用户信息(如果存在)，API使用这些信息去授权(Autorize)访问其数据。</p>
+<p>如果你从头开始，我们提供了一些帮助和in-memory的存储。因此，你不必一开始就担心持久(persistence)性。</p>
+<p>如果你从ASP.NET Identity模板开始，我们同样提供了一种简单的方法来集成。</p>
+<p>快速入门教程为多种常见的IdentityServer场景提供了逐步地指导。它们从绝对的基础知识开始，然后变的更加复杂–建议你按序操作。</p>
+<a id="more"></a>
+<p>每个快速入门项目有一个相关的解决方案，你可以在Quickstarts文件夹中的<a href="&quot;https://identityserver4.readthedocs.io/en/release/quickstarts/0_overview.html&quot;">IdentityServer4.Samples</a>找到源码。</p>
+<h1 id="基本安装"><a href="#基本安装" class="headerlink" title="基本安装"></a>基本安装</h1><p>屏幕中的截图显示的是Visual Studio-但这不是必须的。</p>
+<p><strong>创建 QuickStart IdentityServer</strong></p>
+<p>通过创建Asp.NET Core Web 应用程序开始。</p>
+<img src="/2018/08/16/ids4_3_安装和概述/quickStart_01.png">
+<p>选择空项目模板。</p>
+<img src="/2018/08/16/ids4_3_安装和概述/quickStart_02.png">
+<p>然后添加 IdentityServer4 nuget 包。<br>可在 菜单栏-工具-Nuget包管理器-程序包管理器控制台打开控制台，然后运行以下命令添加包依赖<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PM&gt; Install-Package IdentityServer4</span><br></pre></td></tr></table></figure></p>
+<p><em>注意：</em><br><em>IdentityServer 1.x 版本使用ASP.NET Core 1.1,IdentityServer 2.x 版本使用ASP.NET Core 2.0。</em></p>
+<p>IdentityServer使用常规模式来配置和添加服务到ASP.NET Core宿主。在<code>ConfigureServices</code>中，必要的服务被配置并且添加到依赖注入(DI)系统。在<code>Configure</code>中，中间件(middleware)被添加到HTTP管道中。</p>
+<p>如下修改你的<code>Startup.cs</code>文件：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ConfigureServices</span><span class="params">(IServiceCollection services)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    services.AddIdentityServer()</span><br><span class="line">            .AddDeveloperSigningCredential();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Configure</span><span class="params">(IApplicationBuilder app, IHostingEnvironment env)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (env.IsDevelopment())</span><br><span class="line">    &#123;</span><br><span class="line">        app.UseDeveloperExceptionPage();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    app.UseIdentityServer();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>AddIdentityServer</code>在依赖注入(DI)中注册IdentityServer服务。它还为运行时状态注册一个In-Memory的存储，这对开发场景非常有用。在生产场景中，你需要一个像数据库或缓存一样的持久化或共享存储。</p>
+<p><code>AddDeveloperSigningCredential</code>扩展为登录token创建了一个临时的key。这可能对开始学习很有用，但是在生产场景中，你应该使用持久化Key替换掉它。</p>
+<p><em>注：IdentityServer未为启动做好准备，我们将会在接下来的示例中添加必须的服务。</em></p>
+<h1 id="修改主机"><a href="#修改主机" class="headerlink" title="修改主机"></a>修改主机</h1><p>Visual Studio默认使用IIS Express来寄宿你的Web项目。这是很好的方式，除了你不能从控制台看到时时输出的日志。</p>
+<p>IdentityServer 广泛的使用日志记录，然而在UI或者返回到客户端可见的错误信息是故意模糊的。</p>
+<p>我们推荐在控制台宿主(console host)中运行IdentityServer。可以通过项目(鼠标右键)-属性-调试-启动中选择下拉项[项目]，如下图：</p>
+<img src="/2018/08/16/ids4_3_安装和概述/quickStart_03.png">
+<p>为了方便后续示例，我们统一将项目端口设置为5000，见上图 Web服务器设置-应用Url:http:localhost:5000。</p>
 
       
     </div>
@@ -528,8 +534,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/11/Asp.net-Core身份认证框架IdentityServer4（1）目录/" rel="next" title="Asp.net Core身份认证框架IdentityServer4（1）目录">
-                <i class="fa fa-chevron-left"></i> Asp.net Core身份认证框架IdentityServer4（1）目录
+              <a href="/2018/08/13/配置ssh将本地仓库提交到github仓库/" rel="next" title="配置ssh将本地仓库提交到github仓库">
+                <i class="fa fa-chevron-left"></i> 配置ssh将本地仓库提交到github仓库
               </a>
             
           </div>
@@ -538,8 +544,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/08/13/配置ssh将本地仓库提交到github仓库/" rel="prev" title="配置ssh将本地仓库提交到github仓库">
-                配置ssh将本地仓库提交到github仓库 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/08/21/ids4_4_使用客户端凭证保护API/" rel="prev" title="Asp.net Core身份认证框架IdentityServer4（4）使用客户端凭证保护API">
+                Asp.net Core身份认证框架IdentityServer4（4）使用客户端凭证保护API <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -699,7 +705,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#IdentityServer"><span class="nav-number">1.</span> <span class="nav-text">IdentityServer</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#User"><span class="nav-number">2.</span> <span class="nav-text">User</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Client"><span class="nav-number">3.</span> <span class="nav-text">Client</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Resources"><span class="nav-number">4.</span> <span class="nav-text">Resources</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Identity-Token"><span class="nav-number">5.</span> <span class="nav-text">Identity Token</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Access-Token"><span class="nav-number">6.</span> <span class="nav-text">Access Token</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本安装"><span class="nav-number">1.</span> <span class="nav-text">基本安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改主机"><span class="nav-number">2.</span> <span class="nav-text">修改主机</span></a></li></ol></div>
             
 
           </div>
