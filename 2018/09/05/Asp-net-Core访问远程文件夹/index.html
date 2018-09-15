@@ -118,7 +118,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/2018/09/05/Asp-net-Core访问远程文件夹/access_remote_identity_config.png">
 <meta property="og:image" content="http://yoursite.com/2018/09/05/Asp-net-Core访问远程文件夹/access_remote_file.png">
-<meta property="og:updated_time" content="2018-09-13T11:14:20.307Z">
+<meta property="og:updated_time" content="2018-09-14T10:06:40.914Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Asp.net Core访问远程文件夹">
 <meta name="twitter:description" content="本文介绍了如何在asp.net core中，访问有权限控制的远程文件夹内容。">
@@ -249,7 +249,7 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">11</span></a>
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档<span class="badge">12</span></a>
   </li>
         
         
@@ -398,7 +398,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-09-13 19:14:20" itemprop="dateModified" datetime="2018-09-13T19:14:20+08:00">2018-09-13</time>
+                <time title="修改时间：2018-09-14 18:06:40" itemprop="dateModified" datetime="2018-09-14T18:06:40+08:00">2018-09-14</time>
               
             
           </span>
@@ -498,7 +498,7 @@
 <p>The WNetAddConnection2 function makes a connection to a network resource and can redirect a local device to the network resource.</p>
 </blockquote>
 <p>意思是说，WNetAddConnection2方法可以建立网络资源链接，并且将一个本地驱动到重定向到网络资源。(简单来说就是可以映射网络驱动器)</p>
-<p>修改Configure代码（此处给出Configure中其他注入代码）<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Configure</span><span class="params">(IApplicationBuilder app)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    app.UseStaticFiles();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//添加网络隐射</span></span><br><span class="line">    var result = Drived.NetworkConnection.Connect(<span class="string">"\\10.1.0.10\files"</span>,</span><br><span class="line">                                    <span class="string">"P:"</span>,</span><br><span class="line">                                    <span class="string">"userAccount"</span>,</span><br><span class="line">                                    <span class="string">"password"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (result != <span class="number">0</span>) <span class="keyword">throw</span> <span class="keyword">new</span> Exception($<span class="string">"远程文件目录映射失败！返回结果：&#123;result&#125;"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//添加远程文件目录的访问</span></span><br><span class="line">    app.UseStaticFiles(<span class="keyword">new</span> StaticFileOptions()</span><br><span class="line">    &#123;</span><br><span class="line">        FileProvider = <span class="keyword">new</span> PhysicalFileProvider(ReportSettings.RemoteFileMap),</span><br><span class="line">        RequestPath = <span class="string">"/files"</span></span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p>
+<p>修改Configure代码（此处仅给出Configure中部分代码，其他的注入按实际项目添加。）<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Configure</span><span class="params">(IApplicationBuilder app)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    app.UseStaticFiles();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//添加网络隐射</span></span><br><span class="line">    var result = Drived.NetworkConnection.Connect(<span class="string">"\\10.1.0.10\files"</span>,</span><br><span class="line">                                    <span class="string">"P:"</span>,</span><br><span class="line">                                    <span class="string">"userAccount"</span>,</span><br><span class="line">                                    <span class="string">"password"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (result != <span class="number">0</span>) <span class="keyword">throw</span> <span class="keyword">new</span> Exception($<span class="string">"远程文件目录映射失败！返回结果：&#123;result&#125;"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//添加远程文件目录的访问</span></span><br><span class="line">    app.UseStaticFiles(<span class="keyword">new</span> StaticFileOptions()</span><br><span class="line">    &#123;</span><br><span class="line">        FileProvider = <span class="keyword">new</span> PhysicalFileProvider(ReportSettings.RemoteFileMap),</span><br><span class="line">        RequestPath = <span class="string">"/files"</span></span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p>
 <p><em><code>Drived.NetworkConnection</code>完整代码贴在最后</em></p>
 <p>运行程序，很不幸抛出异常：‘远程文件目录映射失败！返回结果：1312’。我们来看看1312错误究竟是个什么鬼，参考微软官方文档的描述：<a href="https://docs.microsoft.com/zh-cn/windows/desktop/Debug/system-error-codes" target="_blank" rel="noopener">System Error Codes</a></p>
 <blockquote>
@@ -627,7 +627,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
