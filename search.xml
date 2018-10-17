@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[如何在CentOS7下安装redis]]></title>
+    <url>%2F2018%2F10%2F17%2F%E5%9C%A8CentOS7%E4%B8%8B%E5%AE%89%E8%A3%85redis%2F</url>
+    <content type="text"><![CDATA[本文主要介绍了如何在linux系统中如何安装redis。 前言请根据需要安装对应版本的redis，一般推荐安装最新版本的稳定版本。见官网：https://redis.io/ 最下面的Download it.Redis约定版本号第一个次版本号为偶数（如3.0、3.2等）表示稳定版，奇数(如3.1、3.5等)为非稳定版本。 注：文章中 $ 表示这一条linxu命令 下载安装包1$ wget http://download.redis.io/releases/redis-4.0.2.tar.gz 注：上面的地址使用4.0.2版本，其他的版本请对应地址下载。 压缩和安装1234$ tar xzf redis-4.0.11.tar.gz$ cd redis-4.0.11$ make$ mark install 安装完成后，可以/usr/local/bin目录下找到刚刚安装的redis执行文件，见下图： 启动和停止Redis在/usr/local/bin目录下，输入命令redis-server直接运行Redis，我们可以看到如下结果，表示Redis已经成功运行！我们可以看到，Redis默认运行在6379端口。]]></content>
+      <categories>
+        <category>redis</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Asp.net Core身份认证框架IdentityServer4（8）使用asp.net core的identity]]></title>
     <url>%2F2018%2F09%2F14%2Fids4_8_%E4%BD%BF%E7%94%A8asp-net-core-identity%2F</url>
     <content type="text"><![CDATA[IdentityServer是为灵活性而设计的，其中一部分允许你为你的用户及其数据(包括密码)使用任何数据库。如果你正使用一个新的用户数据库开始，Asp.net Identity是一种选择。这个快速入门展示了如果使用Asp.net Identity和IdentityServer。 这个快速入门假设你已经通过了之前所有的快速入门示例。这个快速入门通过使用Visual Studio的Asp.net Identity模板创建一个新的项目来使用Asp.net Identity。这个新的项目将替换之前的IdentityServer项目。这个解决方案中其他的项目依然一样（例如客户端、api项目）。 Asp.net Identity新项目第一步是添加一个新的Asp.net Identity项目到你的解决方案中。 考虑到Asp.net Identity需要大量的代码，使用Visual Studio的模板是很有意义的。你可以完全删除旧的IdentityServer项目(假设你在其他的快速入门项目继续)，但是有几个项目您需要进行迁移(或者像前面的quickstart中描述的那样从头重写)。 开始，创建一个新的”Asp.net Web应用程序”项目。 选择“Web 应用程序(模型视图控制器)”选项，选择.net core的版本为ASP.NET Core 2.0。 然后点击“更改身份认证”按钮，选择“个人用户账号”(表示使用Asp.net Identity) 修改宿主(host)不要忘记修改宿主运行在5000端口(见之前章节)。这对于保证已经存在的客户端和API项目能够继续允许非常重要。 添加IdentityServer 包添加IdentityServer4.AspNetIdentityNuget包。它依赖于IdentityServer4包，因此IdentityServer4作为传递依赖会被自动添加。在程序包管理器控制台执行以下命令安装：1PM&gt; Install-Package IdentityServer4.AspNetIdentity 作用域和客户端配置尽管这是一个新的IdentityServer项目，我们仍然需要像之前的快速入门项目一样的作用域和客户端配置。将你之前的快速入门项目中使用的配置类(Config.cs)拷贝到新的项目中。 在配置中，为MVC客户端禁用consent这个更改是必须的。我们还没有从先前的IdentityServer项目复制consent代码。现在，对MVC客户端进行一次修改，并设置RequireConsent=false。1234567891011121314var client = new Client&#123; ClientId = "mvc", ClientName = "MVC Client", RequireConsent=false, //使用Hybrid flow认证 AllowedGrantTypes = GrantTypes.HybridAndClientCredentials, //客户端密钥 ClientSecrets = &#123; new Secret("secret".Sha256()) &#125;, 以上配置仅贴出部分代码 配置IdentityServer与之前一样，IdentityServer需要在Startup.cs文件中的ConfigureServices和Configure配置。 ConfigureServices下面展示的代码包括了为Asp.net Identity生成的模板代码，同时也有IdentityServer(在最后)需要的代码。在之前的快速入门中，AddTestUsers扩展方法被用来注册用户。但是在这个解决方案中，我们通过替换为AddAspNetIdentity扩展方法，使用ASP.NET Identity用户来替代。AddAspNetIdentity扩展方法需要一个通用参数，这个参数既是你的Asp.net Identity用户类型（与来自模板的AddIdentity方法一样）12345678910111213141516171819202122public void ConfigureServices(IServiceCollection services)&#123; services.AddDbContext&lt;ApplicationDbContext&gt;(options =&gt; options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); services.AddDefaultIdentity&lt;IdentityUser&gt;() .AddEntityFrameworkStores&lt;ApplicationDbContext&gt;() .AddDefaultTokenProviders(); services.AddTransient&lt;IEmailSender, EmailSender&gt;(); services.AddMvc(); services.AddIdentityServer() .AddDeveloperSigningCredential() .AddInMemoryPersistedGrants() .AddInMemoryApiResources(Config.GetApiResources()) .AddInMemoryClients(Config.GetClients()) .AddTestUsers(Config.GetUsers()) .AddInMemoryIdentityResources(Config.GetIdentityResources()) .AddAspNetIdentity&lt;IdentityUser&gt;();&#125; 注意当使用Asp.net Identity时，IdentityServer在Asp.net Identity之后注册到依赖注入系统(DI System)是非常重要的。因为IdentityServer会重写Asp.net Identity的一些配置。 Configure下面展示的代码包括了为Asp.net Identity生成的模板代码，同时调用UseIdentityServer替换原先的UseAuthentication。 1234567891011121314151617181920212223242526public void Configure(IApplicationBuilder app, IHostingEnvironment env)&#123; if (env.IsDevelopment()) &#123; app.UseDeveloperExceptionPage(); app.UseDatabaseErrorPage(); &#125; else &#123; app.UseExceptionHandler("/Home/Error"); app.UseHsts(); &#125; app.UseStaticFiles(); //app.UseAuthentication(); //使用UseIdentityServer替换默认的UseAuthentication app.UseIdentityServer(); app.UseMvc(routes =&gt; &#123; routes.MapRoute( name: "default", template: "&#123;controller=Home&#125;/&#123;action=Index&#125;/&#123;id?&#125;"); &#125;);&#125; 创建用户数据库假设这是一个新的Asp.net Identity项目，你需要创建数据库。打开程序包管理控制台，默认项目选择为IdentityServerWithAspNetIdentity(根据实际创建的名称选择)，然后输入命令：1PM&gt; Update-database 创建用户此时，你可以运行项目然后创建/注册一个用户到数据库。启动应用程序，然后在首页点击”Register”按钮，完成用户注册。现在，你拥有一个用户账号，你可以登录，使用客户端以及调用APIs。 登录MVC客户端启动MVC客户端应用程序，点击需要认证的页面，系统会自动重定向到Asp.net Identity的登录页。]]></content>
@@ -110,7 +121,7 @@
   <entry>
     <title><![CDATA[Asp.net Core身份认证框架IdentityServer4（1）目录]]></title>
     <url>%2F2018%2F08%2F11%2FIds4_1_%E7%9B%AE%E5%BD%95%2F</url>
-    <content type="text"><![CDATA[术语 安装和概述 使用客户端凭证保护API 使用密码保护API 使用OpenID Connect添加用户认证 切换到混合流并添加API访问]]></content>
+    <content type="text"><![CDATA[术语 安装和概述 使用客户端凭证保护API 使用密码保护API 使用OpenID Connect添加用户认证 切换到混合流并添加API访问 注：本系列翻译仅用于个人学习记录以及英语练习英语，他人看到请尽量看原文或其他翻译比较好的文章。]]></content>
       <categories>
         <category>Identity Server 4</category>
       </categories>
